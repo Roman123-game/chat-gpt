@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
 function App() {
+  const [text, setText] = useState('');
+
+  const handleTextChange = (event) => {
+    setText(event.target.value);
+  };
+
+  const speakText = () => {
+    if (text.trim() === '') {
+      alert('Please enter some text to speak.');
+      return;
+    }
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    speechSynthesis.speak(utterance);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: '20px' }}>
+      <h1>Text to Speech</h1>
+      <textarea
+        value={text}
+        onChange={handleTextChange}
+        placeholder="Enter text here"
+        rows="4"
+        cols="50"
+        style={{ marginBottom: '10px' }}
+      />
+      <br />
+      <button onClick={speakText} style={{ padding: '10px 20px', fontSize: '16px' }}>
+        Speak
+      </button>
     </div>
   );
 }
